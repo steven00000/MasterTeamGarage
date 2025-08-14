@@ -96,3 +96,74 @@ if (cloud) {
     cloud.style.transform = 'none';
   });
 }
+
+// ===== Halo "Notre histoire" — mouvement super smooth (lerp + rAF) =====
+(function () {
+  const section = document.querySelector('.history-section');
+  if (!section) return;
+  const light = section.querySelector('.cursor-light');
+  if (!light) return;
+
+  // Couleurs qui se fondent en douceur (sur le CSS via transition)
+  const colors = [
+    'rgba(255,138,0,0.30)',   // orange
+    'rgba(255,45,149,0.30)',  // fuchsia
+    'rgba(138,43,226,0.30)'   // violet
+  ];
+
+  // Position "cible" (souris) et position "courante" (halo)
+  const target = { x: section.clientWidth / 2, y: section.clientHeight / 2 };
+  const state  = { x: target.x, y: target.y };
+
+  // Facteur d’interpolation : plus petit = plus smooth (0.08–0.18 recommandé)
+  const ease = 0.08;
+
+  // Animation continue
+  function tick() {
+    // Lerp vers la cible
+    state.x += (target.x - state.x) * ease;
+    state.y += (target.y - state.y) * ease;
+
+    // Translate GPU-friendly
+    light.style.transform = `translate3d(${state.x}px, ${state.y}px, 0) translate(-50%, -50%)`;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // Convertit l'écran -> coordonnées relatives à la section
+  function toLocal(clientX, clientY) {
+    const r = section.getBoundingClientRect();
+    return { x: clientX - r.left, y: clientY - r.top };
+  }
+
+  // Suivi pointeur
+  section.addEventListener('mousemove', (e) => {
+    const p = toLocal(e.clientX, e.clientY);
+    target.x = p.x; target.y = p.y;
+  });
+
+  // Entrée sur la section (après scroll) : recalcule sans saut
+  section.addEventListener('mouseenter', (e) => {
+    const p = toLocal(e.clientX, e.clientY);
+    // on place la cible, l’interpolation fera le reste
+    target.x = p.x; target.y = p.y;
+  });
+
+  // Touch
+  section.addEventListener('touchmove', (e) => {
+    const t = e.touches[0];
+    if (!t) return;
+    const p = toLocal(t.clientX, t.clientY);
+    target.x = p.x; target.y = p.y;
+  }, { passive: true });
+
+  // Resize : on recale la cible actuelle dans le nouveau repère
+  window.addEventListener('resize', () => {
+    const rect = section.getBoundingClientRect();
+    // on garde la même proportion dans la section
+    const px = state.x / Math.max(rect.width, 1);
+    const py = state.y / Math.max(rect.height, 1);
+    target.x = rect.width * px;
+    target.y = rect.height * py;
+  });
+})();
