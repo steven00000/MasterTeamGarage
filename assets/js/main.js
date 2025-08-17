@@ -77,7 +77,7 @@ prevButton.addEventListener('click', () => {
 setInterval(() => {
   currentSlide = (currentSlide + 1) % slides.length;
   updateCarousel();
-}, 5000);
+}, 10000);
 
 // Micro-parallaxe sur les pills (optionnel)
 const cloud = document.querySelector('.pills-cloud');
@@ -165,5 +165,137 @@ if (cloud) {
     const py = state.y / Math.max(rect.height, 1);
     target.x = rect.width * px;
     target.y = rect.height * py;
+  });
+})();
+
+// ===== Contact form (validation + envoi) =====
+(function(){
+  const form = document.getElementById('contact-form');
+  if(!form) return;
+
+  // OPTION: mets ici ton endpoint Formspree pour un envoi sans backend
+  // Laisse vide "" pour utiliser le fallback mailto
+  const FORMSPREE_URL = ""; // ex: "https://formspree.io/f/xxxxabcd"
+
+  const status = document.getElementById('form-status');
+  const sendBtn = document.getElementById('send-btn');
+
+  const fields = {
+    name: form.querySelector('[name="name"]'),
+    email: form.querySelector('[name="email"]'),
+    topic: form.querySelector('[name="topic"]'),
+    message: form.querySelector('[name="message"]'),
+    consent: form.querySelector('[name="consent"]'),
+    hp: form.querySelector('[name="company"]') // honeypot
+  };
+
+  function setError(input, msg){
+    const small = input.parentElement.querySelector('.error');
+    if (small) small.textContent = msg || '';
+    input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  }
+
+  function validEmail(v){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  }
+
+  function validate(){
+    let ok = true;
+    // honeypot
+    if (fields.hp.value) return false;
+
+    // name
+    if (!fields.name.value.trim()){
+      setError(fields.name, 'Veuillez indiquer votre nom.');
+      ok = false;
+    } else setError(fields.name, '');
+
+    // email
+    if (!validEmail(fields.email.value)){
+      setError(fields.email, 'Adresse e-mail invalide.');
+      ok = false;
+    } else setError(fields.email, '');
+
+    // message
+    const m = fields.message.value.trim();
+    if (m.length < 10){
+      setError(fields.message, 'Message trop court (min. 10 caractères).');
+      ok = false;
+    } else setError(fields.message, '');
+
+    // consent
+    if (!fields.consent.checked){
+      ok = false;
+      status.textContent = 'Veuillez accepter la case de consentement.';
+    }
+
+    return ok;
+  }
+
+  async function sendFormspree(payload){
+    const res = await fetch(FORMSPREE_URL, {
+      method:'POST',
+      headers: {'Accept':'application/json','Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('send_failed');
+    const data = await res.json().catch(()=> ({}));
+    return data;
+  }
+
+  function sendMailto(payload){
+    const to = 'contact@association-danse.fr'; // ← remplace par votre e-mail
+    const subject = encodeURIComponent(`Contact site — ${payload.topic}`);
+    const body = encodeURIComponent(
+      `Nom: ${payload.name}\nEmail: ${payload.email}\nSujet: ${payload.topic}\n\n${payload.message}`
+    );
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+  }
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    status.textContent = '';
+    if (!validate()) return;
+
+    const payload = {
+      name: fields.name.value.trim(),
+      email: fields.email.value.trim(),
+      topic: fields.topic.value,
+      message: fields.message.value.trim()
+    };
+
+    // anti-double envoi
+    sendBtn.disabled = true; sendBtn.textContent = 'Envoi…';
+
+    try{
+      if (FORMSPREE_URL){
+        await sendFormspree(payload);
+        status.textContent = 'Merci ! Votre message a bien été envoyé.';
+        form.reset();
+      } else {
+        // fallback mailto si pas d’URL configurée
+        sendMailto(payload);
+        status.textContent = 'Ouverture de votre logiciel de messagerie…';
+      }
+    } catch(err){
+      console.error(err);
+      status.textContent = "Désolé, l'envoi a échoué. Réessayez plus tard ou écrivez-nous directement.";
+    } finally {
+      sendBtn.disabled = false; sendBtn.textContent = 'Envoyer';
+    }
+  });
+
+  // live validation légère
+  ['input','blur','change'].forEach(evt=>{
+    form.addEventListener(evt, (e)=>{
+      const t = e.target;
+      if (t === fields.name) {
+        setError(t, t.value.trim() ? '' : 'Veuillez indiquer votre nom.');
+      } else if (t === fields.email) {
+        setError(t, validEmail(t.value) ? '' : 'Adresse e-mail invalide.');
+      } else if (t === fields.message) {
+        setError(t, t.value.trim().length >= 10 ? '' : 'Message trop court (min. 10 caractères).');
+      }
+    }, true);
   });
 })();
