@@ -3,302 +3,187 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SB MOOV - Association d’expression scénique et corporelle</title>
-    <meta
-      name="description"
-      content="SB MOOV ateliers d’expression scénique et corporelle pour tous — théâtre, improvisation, danse libre, corps & voix, comédie musicale, bien‑être. Séance d’essai offerte."
-    />
-    <link rel="preload" href="assets/img/logo.png" as="image" />
+    <title>Master Team Garage – Garage moto à Garéoult | Entretien & réparation</title>
+    <meta name="description" content="Master Team Garage à Garéoult : entretien, révision et réparation motos toutes marques. Devis gratuit, travail sérieux, pièces de qualité. 06 81 58 03 45." />
+    <link rel="preload" href="assets/img/logo-mtg.png" as="image" />
     <link rel="stylesheet" href="assets/css/styles.css" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3CradialGradient id='g'%3E%3Cstop offset='0' stop-color='%23FFB36B'/%3E%3Cstop offset='0.55' stop-color='%23FF2D95'/%3E%3Cstop offset='1' stop-color='%238A2BE2'/%3E%3C/radialGradient%3E%3Ccircle cx='50' cy='50' r='50' fill='url(%23g)'/%3E%3C/svg%3E"
-    />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+    <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <!------------------------------------ NAVBAR ------------------------------------>
+    <!-- NAVBAR -->
     <header class="nav">
       <div class="nav__inner container">
-        <a class="nav__brand" href="#accueil" aria-label="SB MOOV'">
-          <img
-            src="assets/img/logo.png"
-            class="nav__logo"
-            alt="SB MOOV' logo"
-          />
-          <span class="nav__name">SB MOOV'</span>
+        <a class="nav__brand" href="#accueil" aria-label="Master Team Garage">
+          <img src="assets/img/logo-mtg.png" class="nav__logo" alt="Logo Master Team Garage" />
+          <span class="nav__name">Master Team Garage</span>
         </a>
-        <button class="nav__toggle" aria-expanded="false" aria-controls="menu">
-          Menu
-        </button>
+        <button class="nav__toggle" aria-expanded="false" aria-controls="menu">Menu</button>
         <nav id="menu" class="menu" aria-label="Navigation principale">
-          <a href="#planning">Planning</a>
-          <a href="#tarifs">Adhésion & Cotisation Annuelle</a>
-          <a href="#contact" class="btn btn--sm">Séance d’essai</a>
+          <a href="#services">Services</a>
+          <a href="#media">Réalisations</a>
+          <a href="#avis">Avis</a>
+          <a href="#histoire">À propos</a>
+          <a href="#contact" class="btn btn--sm">Devis gratuit</a>
         </nav>
       </div>
     </header>
 
     <main>
-      <!------------------------------------ HERO ------------------------------------>
-      <section id="accueil" class="hero">
-        <div class="aurora" aria-hidden="true"></div>
-        <div class="container hero__content">
-          <img
-            src="assets/img/logo.png"
-            alt="SB MOOV' logo"
-            class="hero__logo"
-          />
-          <h1 class="hero__title">
-            Énergie Passion<span class="word-animated accent"> Partage</span>
-          </h1>
-          <p class="hero__text">
-            Association d’expression scénique et corporelle
-          </p>
-          <div class="hero__actions">
-            <a class="btn" href="#planning">Découvrir plus</a>
-            <a class="btn btn--ghost" href="#contact">Nous contacter</a>
-          </div>
-          <!-- <div class="hero__badges">
-            <span>Théâtre</span><span>Impro</span><span>Danse libre</span><span>Corps & Voix</span><span>Comédie musicale</span><span>Bien‑être</span>
-          </div> -->
-        </div>
-      </section>
+    <!-- HERO (compact) -->
+<section id="accueil" class="hero hero--compact">
+  <div class="aurora" aria-hidden="true"></div>
 
-      <!-- Notre histoire -->
-<section class="section history-section" id="histoire">
-  <div class="cursor-light"></div>
+  <div class="container hero__content">
+    <p class="hero__eyebrow">Garage moto — Garéoult</p>
+
+    <h1 class="hero__title">
+      Entretien & réparations <span class="accent">toutes marques</span>
+    </h1>
+
+    <p class="hero__subtitle">Devis gratuit • Travail soigné • Délais tenus</p>
+
+    <div class="hero__actions">
+      <a class="btn" href="#contact">Demander un devis</a>
+      <a class="hero__phone" href="tel:+33681580345">📞 06&nbsp;81&nbsp;58&nbsp;03&nbsp;45</a>
+    </div>
+  </div>
+
+  <!-- flèche scroll -->
+  <a href="#services" class="scroll-down" aria-label="Voir nos services">
+    <span class="sr-only">Faites défiler</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true" class="scroll-down__icon">
+      <path d="M12 13.5l-6-6 1.4-1.4L12 10.7l4.6-4.6L18 7.5l-6 6zM12 19.5l-6-6 1.4-1.4L12 16.7l4.6-4.6L18 13.5l-6 6z"/>
+    </svg>
+  </a>
+</section>
+<!-- POINTS FORTS -->
+<section id="avis" class="section">
   <div class="container">
     <header class="section__head">
-      <h2>SB MOOV'...</h2>
-      <p class="muted">L’expression scénique et corporelle pour <span class="word-animated accent">TOUS !</span></p>
+      <h2>Points forts</h2>
+      <p class="muted">Ce qui fait la différence chez Master Team Garage.</p>
     </header>
 
-    <div class="history-text">
-      <p>
-        Chez <strong>SB MOOV’</strong>, nous croyons que le mouvement et l’expression corporelle sont bien plus qu’une activité artistique : ce sont des moyens uniques de se découvrir, de s’affirmer et de partager des émotions.
-      </p>
+    <div class="pricing">
+      <article class="price">
+        <h3>⚡ Efficacité</h3>
+        <div class="price__value">Rapide & dans les temps</div>
+        <p class="muted small">RDV flexibles, révisions express, délais respectés.</p>
+      </article>
 
-      <p>
-        Notre association propose des cours et ateliers adaptés à tous les âges et à tous les niveaux, mêlant travail corporel, interprétation et mise en scène pour développer à la fois la technique et la créativité.
-      </p>
+      <article class="price price--highlight">
+        <h3>🛠️ Qualité</h3>
+        <div class="price__value">Pièces fiables</div>
+        <p class="muted small">Consommables de marque et méthodes constructeur.</p>
+      </article>
 
-      <h3 >🎭 <span class="word-animated accent">Notre univers</span></h3>
-      <p>
-        Nous créons des projets artistiques modernes et variés, associant gestes, jeu scénique et atmosphères visuelles. Chaque représentation – gala ou événement en extérieur – est pensée pour offrir au public une expérience immersive et mettre en valeur chaque participant.
-      </p>
-
-      <h3>✨ <span class="word-animated accent">Pour qui ?</span></h3>
-      <p>
-        Que vous soyez débutant, confirmé ou simplement curieux, nous vous accueillons dans un cadre convivial, bienveillant et stimulant.
-      </p>
-
-      <h3>🌟 <span class="word-animated accent">Nos valeurs</span></h3>
-      <ul class="history-values">
-        <li><strong>Énergie :</strong> transmettre vitalité et dynamisme dans chaque projet</li>
-        <li><strong>Passion :</strong> vivre pleinement chaque moment sur scène</li>
-        <li><strong>Partage :</strong> créer des liens et des émotions collectives</li>
-      </ul>
+      <article class="price">
+        <h3>🔎 Transparence</h3>
+        <div class="price__value">Devis gratuit</div>
+        <p class="muted small">Diagnostic clair, explications avant travaux.</p>
+      </article>
     </div>
   </div>
 </section>
 
 
-  <!------------------------------------ Halo qui suit la souris ------------------------------------>
-  <div class="cursor-light" aria-hidden="true"></div>
-</section>
-
-<section class="section" id="media">
-  <div class="container">
-    <div class="section__head">
-      <h2>Souvenirs de scène</h2>
-      <p class="muted">Quelques images des galas.</p>
-    </div>
-
-    <div class="media-split">
-      <!-- Colonne gauche : CARROUSEL -->
-      <div class="media-left">
-        <div class="carousel">
-          <div class="carousel-track">
-            <div class="carousel-item"><img src="assets/img/gala/SB Moov-1.jpg" alt="Gala 1"></div>
-            <div class="carousel-item"><img src="assets/img/gala/SB Moov-2.jpg" alt="Gala 2"></div>
-            <div class="carousel-item"><img src="assets/img/gala/SB Moov-3.jpg" alt="Gala 3"></div>
-            <div class="carousel-item"><img src="assets/img/gala/SB Moov-4.jpg" alt="Gala 4"></div>
-            <div class="carousel-item"><img src="assets/img/gala/SB Moov-5.jpg" alt="Gala 5"></div>
-            <div class="carousel-item"><img src="assets/img/gala/SB Moov-6.jpg" alt="Gala 5"></div>
-            <div class="carousel-item"><img src="assets/img/gala/SB Moov-7.jpg" alt="Gala 5"></div>
-          </div>
-          <button class="carousel-btn prev" aria-label="Image précédente">&#10094;</button>
-          <button class="carousel-btn next" aria-label="Image suivante">&#10095;</button>
-        </div>
-      </div>
-      <!-- Colonne droite : VIDÉO -->
-      <div class="media-right">
-        <div class="video-embed">
-          <video controls autoplay muted loop playsinline>
-          <source src="assets/video/Les coulisses du Gala 2024.mp4" type="video/mp4">
-          Votre navigateur ne supporte pas la lecture vidéo.
-          </video>
-        </div>
-      </div>
-      <div class="media-cta">
-  <a class="galerie-btn" href="galerie.html">Voir la galerie</a>
-</div>
-    </div>
-  </div>
-</section>
-
-
-      <!------------------------------------ PLANNING ------------------------------------>
-      <section id="planning" class="section section--alt">
+      <!-- RÉALISATIONS (carrousel + vidéo) -->
+      <section class="section" id="media">
         <div class="container">
-          <header class="section__head">
-            <h2>Planning</h2>
-            <!-- <p class="muted">Remplacez par vos créneaux. Intégration Google Calendar possible.</p> -->
-          </header>
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Groupes</th>
-                  <th>jour</th>
-                  <th>Heure</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Eveil</td>
-                  <td>Mercredi</td>
-                  <td>14:00–15:00</td>
-                </tr>
-                <tr>
-                  <td>Initiation</td>
-                  <td>Mercredi</td>
-                  <td>15:00–16:00</td>
-                </tr>
-                <tr>
-                  <td>Elementaire</td>
-                  <td>Mercredi</td>
-                  <td>16:00–17:30</td>
-                </tr>
-                <tr>
-                  <td>Moyen</td>
-                  <td>Mercredi</td>
-                  <td>17:30–19:00</td>
-                </tr>
-                <tr>
-                  <td>Adultes 1</td>
-                  <td>Mercredi</td>
-                  <td>19:00–20:00</td>
-                </tr>
-                <tr>
-                  <td>Adultes 2</td>
-                  <td>Mercredi</td>
-                  <td>20:00–21:30</td>
-                </tr>
-                <tr>
-                  <td>Avancés</td>
-                  <td>Samedi</td>
-                  <td>10:00–12:30</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="section__head">
+            <h2>Réalisations</h2>
+            <p class="muted">Quelques projets récents à l’atelier.</p>
+          </div>
+
+          <div class="media-split">
+            <!-- Carrousel -->
+            <div class="media-left">
+              <div class="carousel">
+                <div class="carousel-track">
+                  <div class="carousel-item"><img src="assets/img/520481695_24938017752452843_7965862793950238469_n.jpg" alt="Montage pneus"></div>
+                  <div class="carousel-item"><img src="assets/img/Design sans titre.png" alt="Révision roadster"></div>
+                  <div class="carousel-item"><img src="assets/img/Design-sans-titre.ico" alt="Freinage trail"></div>
+                  <div class="carousel-item"><img src="assets/img/logo-mtg.png" alt="Café racer"></div>
+                  <div class="carousel-item"><img src="assets/img/og-cover.jpg" alt="Diag électrique"></div>
+                </div>
+                <button class="carousel-btn prev" aria-label="Image précédente">&#10094;</button>
+                <button class="carousel-btn next" aria-label="Image suivante">&#10095;</button>
+              </div>
+            </div>
+            <!-- Vidéo -->
+            <!-- <div class="media-right">
+              <div class="video-embed">
+                <video controls muted loop playsinline>
+                  <source src="assets/video/atelier.mp4" type="video/mp4" />
+                  Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+              </div>
+            </div> -->
+
+            <!-- <div class="media-cta">
+              <a class="galerie-btn" href="galerie.html">Voir la galerie</a>
+            </div> -->
           </div>
         </div>
       </section>
 
-      <!------------------------------------ ADHÉSION & TARIFS ------------------------------------>
-      <section id="tarifs" class="section section--alt">
+      
+
+      <!-- À PROPOS -->
+      <section class="section history-section" id="histoire">
+        <div class="cursor-light"></div>
         <div class="container">
           <header class="section__head">
-            <h2>Adhésion & Cotisation Annuelle</h2>
-            <p class="muted">
-              À partir de
-              <span class="word-animated accent">3 ans révolus</span>
+            <h2>À propos</h2>
+            <p class="muted">Master Team Garage — <span class="word-animated accent">Garéoult (83)</span></p>
+          </header>
+
+          <div class="history-text">
+            <p>
+              Garage moto indépendant : entretien, révision et réparation <strong>toutes marques</strong>. Passion, rigueur et pédagogie : chaque intervention est expliquée et chiffrée avant travaux.
             </p>
-          </header>
-          <div class="pricing">
-            <article class="price">
-              <h3>1 Adhérent</h3>
-              <div class="price__value">220 € / an</div>
-              <a class="btn btn--block" href="#contact">Adhérer</a>
-            </article>
-            <article class="price price--highlight">
-              <h3>2 Adhérents</h3>
-              <div class="price__value">400 € / an</div>
-              <a class="btn btn--block" href="#contact">Adhérer</a>
-            </article>
-            <article class="price">
-              <h3>3 Adhérents</h3>
-              <div class="price__value">570 € / an</div>
-              <a class="btn btn--block" href="#contact">Adhérere</a>
-            </article>
+            <h3>Nos valeurs</h3>
+            <ul class="history-values">
+              <li><strong>Qualité :</strong> pièces et consommables fiables</li>
+              <li><strong>Efficacité :</strong> délais tenus, révisions rapides</li>
+              <li><strong>Transparence :</strong> devis gratuit et clair</li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <!------------------------------------ CONTACT ------------------------------------>
+      <!-- CONTACT -->
       <section id="contact" class="section section--alt">
-        <div class="container contact">
-          <div class="contact__info">
-            <h2>Contact & accès</h2>
-            <ul class="list">
-              <li><strong>Adresse du siège :</strong> 159 Avenue Sadi Carnot - 83130 LA GARDE</li>
-              <li><strong>Adresse des cours :</strong> MIS de La Planquette - 241 Mail de La Planquette - 83130 LA GARDE</li>
-              <li><strong>Téléphone :</strong> 06 82 37 12 58</li>
-              <li><strong>Email :</strong> sbmoov@hotmail.com</li>
-            </ul>
-            <div class="map">Carte intégrée (Google Maps)</div>
+        <div class="container contact-card">
+          <h2 class="contact-title">Contact & accès</h2>
+
+          <ul class="contact-list">
+            <li><strong>Adresse :</strong> Imp. Romain Rolland — 83136 Garéoult</li>
+            <li><strong>Téléphone :</strong> <a href="tel:+33681580345">06 81 58 03 45</a></li>
+            <li><strong>Instagram :</strong> <a href="https://instagram.com/" target="_blank" rel="noopener">Voir le profil</a></li>
+            <!-- <li><strong>Email :</strong> <a href="mailto:contact@masterteamgarage.fr">contact@masterteamgarage.fr</a></li> -->
+          </ul>
+
+          <div class="map-wrap">
+            <div id="map-multi"></div>
           </div>
-          <form class="form" id="contact-form" novalidate>
-  <h3>Écrire à l’association</h3>
 
-  <!-- anti-spam (honeypot) -->
-  <input type="text" name="company" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;padding:0;border:0" />
-
-  <label>
-    <span>Votre nom</span>
-    <input type="text" name="name" required autocomplete="name" />
-    <small class="error" aria-live="polite"></small>
-  </label>
-
-  <label>
-    <span>Votre e-mail</span>
-    <input type="email" name="email" required autocomplete="email" />
-    <small class="error" aria-live="polite"></small>
-  </label>
-
-  <label>
-    <span>Votre message</span>
-    <textarea name="message" rows="6" required minlength="10" maxlength="2000"></textarea>
-    <small class="error" aria-live="polite"></small>
-  </label>
-
-  <label class="consent">
-    <input type="checkbox" name="consent" required />
-    <span>J’accepte d’être recontacté·e pour ma demande.</span>
-  </label>
-
-  <button type="submit" class="btn" id="send-btn">Envoyer</button>
-  <p class="small muted">
-    En soumettant ce formulaire, vous acceptez notre <a href="#">politique de confidentialité</a>.
-  </p>
-  <p id="form-status" class="small" role="status" aria-live="polite"></p>
-</form>
-
+          <div class="contact-actions">
+            <a class="link-pill" href="https://maps.google.com/?q=Imp.%20Romain%20Rolland,%2083136%20Gar%C3%A9oult" target="_blank" rel="noopener">Itinéraire Google Maps</a>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="footer">
       <div class="container footer__inner">
-        <p>© <span id="year"></span> M.Steven & SB MOOV'. Tous droits réservés.</p>
-        <!-- <nav class="footer__nav">
-          <a href="#">Mentions légales</a><a href="#">RGPD & cookies</a>
-        </nav> -->
+        <p>© <span id="year"></span> Master Team Garage – Garéoult. Tous droits réservés.</p>
       </div>
     </footer>
 
-    <a href="#contact" class="cta-fab">Séance d’essai</a>
+    <a href="#contact" class="cta-fab">Devis gratuit</a>
 
     <script src="assets/js/main.js" defer></script>
   </body>
