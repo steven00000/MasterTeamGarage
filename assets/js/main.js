@@ -1,14 +1,45 @@
-// ===== Menu mobile
+// ===== Helpers menu (centralisés)
 const toggle = document.querySelector('.nav__toggle');
-const menu = document.getElementById('menu');
-if (toggle && menu) {
-  toggle.addEventListener('click', () => {
-    const open = menu.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
-  });
-}
+const menu   = document.getElementById('menu');
 
-// ===== Smooth scroll (et fermeture du menu mobile)
+function isMenuOpen(){ return !!menu && menu.classList.contains('open'); }
+function firstMenuFocusable(){ return menu?.querySelector('a,button'); }
+
+function openMenu(){
+  if (!menu) return;
+  menu.classList.add('open');
+  toggle?.setAttribute('aria-expanded','true');
+  document.body.classList.add('menu-open'); // bloque le scroll de fond
+  setTimeout(() => firstMenuFocusable()?.focus(), 0);
+}
+function closeMenu(){
+  if (!menu) return;
+  menu.classList.remove('open');
+  toggle?.setAttribute('aria-expanded','false');
+  document.body.classList.remove('menu-open'); // RESTAURE le scroll
+}
+function toggleMenu(){ isMenuOpen() ? closeMenu() : openMenu(); }
+
+// Bouton hamburger
+toggle?.addEventListener('click', toggleMenu);
+
+// Fermer si clic à l’extérieur
+document.addEventListener('click', (e) => {
+  if (!menu || !isMenuOpen()) return;
+  const clickInMenu   = menu.contains(e.target);
+  const clickInToggle = toggle?.contains(e.target);
+  if (!clickInMenu && !clickInToggle) closeMenu();
+});
+
+// Fermer via ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && isMenuOpen()) {
+    closeMenu();
+    toggle?.focus();
+  }
+});
+
+// ===== Smooth scroll + fermeture menu mobile
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href');
@@ -16,8 +47,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (target) {
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      menu?.classList.remove('open');
-      toggle?.setAttribute('aria-expanded', 'false');
+      closeMenu(); // IMPORTANT : enlève .menu-open du body
     }
   });
 });
@@ -36,27 +66,15 @@ let currentSlide = 0;
 function setActiveSlide(){
   slides.forEach((s,i) => s.classList.toggle('is-active', i === currentSlide));
 }
-
 function updateCarousel() {
   if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
   setActiveSlide();
 }
-
-nextButton?.addEventListener('click', () => {
-  currentSlide = (currentSlide + 1) % slides.length;
-  updateCarousel();
-});
-prevButton?.addEventListener('click', () => {
-  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-  updateCarousel();
-});
-
+nextButton?.addEventListener('click', () => { currentSlide = (currentSlide + 1) % slides.length; updateCarousel(); });
+prevButton?.addEventListener('click', () => { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateCarousel(); });
 if (slides.length){
   setActiveSlide();
-  setInterval(() => {
-    currentSlide = (currentSlide + 1) % slides.length;
-    updateCarousel();
-  }, 8000);
+  setInterval(() => { currentSlide = (currentSlide + 1) % slides.length; updateCarousel(); }, 8000);
 }
 
 // ===== Halo “À propos” (follow cursor)
@@ -81,13 +99,8 @@ if (slides.length){
     const r = section.getBoundingClientRect();
     return { x: clientX - r.left, y: clientY - r.top };
   }
-  section.addEventListener('mousemove', (e) => {
-    const p = toLocal(e.clientX, e.clientY); target.x = p.x; target.y = p.y;
-  });
-  section.addEventListener('touchmove', (e) => {
-    const t = e.touches[0]; if (!t) return;
-    const p = toLocal(t.clientX, t.clientY); target.x = p.x; target.y = p.y;
-  }, { passive: true });
+  section.addEventListener('mousemove', (e) => { const p = toLocal(e.clientX, e.clientY); target.x = p.x; target.y = p.y; });
+  section.addEventListener('touchmove', (e) => { const t = e.touches[0]; if (!t) return; const p = toLocal(t.clientX, t.clientY); target.x = p.x; target.y = p.y; }, { passive: true });
 })();
 
 // ===== Lien actif au scroll (IntersectionObserver)
@@ -95,42 +108,25 @@ if (slides.length){
   const navLinks = Array.from(document.querySelectorAll('#menu a[href^="#"]'));
   if (!navLinks.length) return;
 
-  const linkById = new Map(
-    navLinks.map(a => [a.getAttribute('href').slice(1), a])
-  );
-
-  const sections = Array.from(linkById.keys())
-    .map(id => document.getElementById(id))
-    .filter(Boolean);
+  const linkById = new Map(navLinks.map(a => [a.getAttribute('href').slice(1), a]));
+  const sections = Array.from(linkById.keys()).map(id => document.getElementById(id)).filter(Boolean);
 
   function setActive(id){
     navLinks.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === `#${id}`));
   }
 
-  // Active au clic immédiat
-  navLinks.forEach(a => {
-    a.addEventListener('click', () => {
-      const id = a.getAttribute('href').slice(1);
-      if (id) setActive(id);
-    });
-  });
+  navLinks.forEach(a => a.addEventListener('click', () => {
+    const id = a.getAttribute('href').slice(1);
+    if (id) setActive(id);
+  }));
 
-  // Observer : la section la plus visible active son lien
   const observer = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-    if (visible && visible.target.id) setActive(visible.target.id);
-  }, {
-    root: null,
-    threshold: [0, 0.25, 0.5, 0.75, 1],
-    rootMargin: '-40% 0px -55% 0px'
-  });
+    const visible = entries.filter(e => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible?.target?.id) setActive(visible.target.id);
+  }, { root: null, threshold: [0, .25, .5, .75, 1], rootMargin: '-40% 0px -55% 0px' });
 
   sections.forEach(sec => observer.observe(sec));
 
-  // État initial
   const initial = location.hash ? location.hash.slice(1) : 'accueil';
   if (linkById.has(initial)) setActive(initial);
 })();
@@ -145,7 +141,6 @@ if (slides.length){
   const els = selectors.flatMap(sel => Array.from(document.querySelectorAll(sel)));
   if (!els.length) return;
 
-  // Groupe par section pour un stagger logique
   const groups = new Map();
   els.forEach(el => {
     const group = el.closest('.section, .hero') || document.body;

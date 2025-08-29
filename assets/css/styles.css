@@ -164,12 +164,12 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 .aurora::before{
   top:-15vmax; left:-10vmax;
   background:radial-gradient(closest-side, rgba(240,176,0,.95) 0%, rgba(224,38,29,.45) 55%, rgba(224,38,29,0) 70%);
-  animation:driftA 10s ease-in-out infinite alternate;
+  animation:driftA 5s ease-in-out infinite alternate;
 }
 .aurora::after{
   bottom:-12vmax; right:-8vmax;
   background:radial-gradient(closest-side, rgba(224,38,29,.85) 0%, rgba(240,176,0,.4) 50%, rgba(240,176,0,0) 70%);
-  animation:driftB 7s ease-in-out infinite alternate;
+  animation:driftB 3s ease-in-out infinite alternate;
 }
 @keyframes driftA{0%{transform:translate(0,0) scale(1)}100%{transform:translate(12px,-88px) scale(1.5)}}
 @keyframes driftB{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-100px,10px) scale(1.3)}}
@@ -307,3 +307,77 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
   box-shadow:0 10px 24px rgba(224,38,29,.3);
 }
 @media (min-width:880px){.cta-fab{display:none}}
+
+/* ===== Mobile pack (responsive + confort tactile) ===== */
+
+/* Safe area iPhone */
+.cta-fab{ bottom: calc(16px + env(safe-area-inset-bottom)); }
+
+/* Nav : surlignage actif déjà géré, on améliore la hit-area */
+.menu a,
+.btn,
+.nav__toggle{ min-height:44px; }
+
+/* Breakpoint principal mobile */
+@media (max-width:760px){
+  :root{
+    --fs-hero: clamp(1.8rem, 7vw, 2.6rem);
+    --fs-h2: clamp(1.25rem, 4.5vw, 1.6rem);
+    --fs-p: 1rem;
+    --scroll-offset: 64px; /* ancres = marge sous navbar */
+  }
+
+  .container{ padding: 0 16px; }
+
+  /* Navbar : menu “feuille” centré et confortable */
+  .nav__toggle{ display:inline-flex; }
+  .menu{
+    position: fixed; left: 10px; right: 10px; top: 66px;
+    display:none; flex-direction:column; gap:10px;
+    padding:12px; border-radius:14px; z-index:50;
+    background:#121218; border:1px solid var(--border);
+    box-shadow: 0 18px 40px rgba(0,0,0,.45);
+  }
+  .menu.open{ display:flex; }
+  .menu a{
+    padding:12px 14px; border-radius:12px;
+    border:1px solid var(--border); background:#14141b;
+  }
+  .menu .btn{ width:100%; text-align:center; }
+
+  /* Corps : le scroll de fond est bloqué quand le menu est ouvert */
+  body.menu-open{ overflow:hidden; }
+
+  /* Hero compact + boutons lisibles */
+  .hero{ min-height:86vh; }
+  .hero__actions{ gap:8px; }
+  .btn{ padding:12px 16px; }
+  .btn.btn--sm{ padding:10px 14px; }
+  .hero__phone{ display:block; margin:6px 0 0; font-size:1rem; }
+
+  /* Scroll-down un peu plus bas */
+  .scroll-down{ bottom:10px; }
+
+  /* Grilles en pile */
+  .pricing{ grid-template-columns:1fr; gap:16px; }
+
+  /* Media */
+  .media-split{ grid-template-columns:1fr; grid-template-areas:"left" "right" "cta"; }
+}
+
+/* Mobile plus serré */
+@media (max-width:600px){
+  .section{ padding:52px 0; }
+  .carousel-item{ aspect-ratio: 4 / 3; }
+  .map-embed{ aspect-ratio: 4 / 3; }
+  .footer__inner{ flex-direction:column; text-align:center; gap:8px; }
+
+  /* Aurora moins gourmande sur petits GPUs */
+  .aurora::before, .aurora::after{ filter: blur(60px); opacity:.14; }
+}
+
+/* Tablettes (entre mobile et desktop) */
+@media (min-width:761px) and (max-width:980px){
+  .pricing{ grid-template-columns: repeat(2, 1fr); }
+  .media-split{ grid-template-columns:1fr; grid-template-areas:"left" "right" "cta"; }
+}
